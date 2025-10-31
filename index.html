@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Página de Testes - Kubernetes</title>
+  <style>
+    :root{
+      --bg1:#0f172a; /* dark navy */
+      --bg2:#0ea5a4; /* teal */
+      --card:#0b1220;
+      --accent:#7c3aed; /* purple */
+      --muted: #94a3b8;
+      --glass: rgba(255,255,255,0.03);
+      --btn-shadow: 0 6px 18px rgba(12,18,40,0.5);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0}
+    body{
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent 10%),
+                  linear-gradient(180deg,var(--bg1), #071029 60%);
+      color: #e6eef8;
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+    .card{
+      width:min(900px,96%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      box-shadow: var(--btn-shadow);
+      padding:28px;
+      backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,0.03);
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:24px;
+      align-items:center;
+    }
+    .brand{
+      display:flex;flex-direction:column;gap:8px;
+    }
+    h1{margin:0;font-size:28px;letter-spacing:-0.02em}
+    p.lead{margin:0;color:var(--muted)}
+    .hero-text{
+      margin-top:18px;
+      font-size:18px;
+      line-height:1.45;
+      color:#dfeeff;
+    }
+    .chips{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+    .chip{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,0.025)}
+
+    /* Buttons */
+    .controls{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;justify-content:center;padding:12px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600;font-size:14px;
+      box-shadow: var(--btn-shadow);
+      transition:transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+
+    .btn-primary{background:linear-gradient(90deg,var(--accent), #06b6d4);color:white}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .btn-ghost{background:var(--glass);color:#dbeafe}
+
+    .right-panel{
+      padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border-radius:12px;align-self:stretch;display:flex;flex-direction:column;gap:12px;
+      border:1px solid rgba(255,255,255,0.02)
+    }
+    .status{font-size:13px;color:var(--muted)}
+    .logo{display:flex;gap:10px;align-items:center}
+    .logo svg{width:42px;height:42px}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr;}
+      .right-panel{order:2}
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <section class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <rect x="2" y="2" width="44" height="44" rx="10" fill="url(#g)" />
+          <path d="M14 30c4 2 8 2 12 0s6-6 6-10-2-8-6-10-8-2-12 0-6 6-6 10 2 8 6 10z" fill="rgba(255,255,255,0.18)"/>
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#0ea5a4"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>
+        </svg>
+        <div>
+          <h1>Minha página de testes</h1>
+          <p class="lead">Esta é minha página de testes para Kubernetes.</p>
+        </div>
+      </div>
+
+      <p class="hero-text">Use esta página para validar deploys simples dentro do seu cluster. Ela é estática (HTML/CSS) e fácil de subir como um `ConfigMap` ou image pequena.</p>
+
+      <div class="chips">
+        <div class="chip">Estático</div>
+        <div class="chip">Kubernetes</div>
+        <div class="chip">Teste</div>
+        <div class="chip">Deploy rápido</div>
+      </div>
+
+      <footer>Feito para demonstrar deploys simples — personalize à vontade.</footer>
+    </section>
+
+    <aside class="right-panel" aria-label="Controles de teste">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong>Status do teste</strong>
+          <div class="status">Cluster: <span id="cluster">não detectado</span></div>
+        </div>
+        <div style="text-align:right;color:var(--muted);font-size:12px">v1 • estático</div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="btn-hello">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 2v6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11c2.5-1 4-1 7 0 3 1 4.5 1 7 0" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Mostrar mensagem
+        </button>
+
+        <button class="btn btn-ghost" id="btn-copy">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><rect x="9" y="9" width="9" height="11" rx="2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Copiar texto para clipboard
+        </button>
+
+        <button class="btn btn-outline" id="btn-theme">Alternar tema</button>
+      </div>
+
+      <div style="margin-top:8px;font-size:13px;color:var(--muted)">Dica: este HTML é adequado para um `ConfigMap` simples ou container estático.</div>
+    </aside>
+  </main>
+
+  <script>
+    // Interações simples (sem dependências)
+    const btnHello = document.getElementById('btn-hello');
+    const btnCopy = document.getElementById('btn-copy');
+    const btnTheme = document.getElementById('btn-theme');
+    const clusterLabel = document.getElementById('cluster');
+
+    btnHello.addEventListener('click', ()=>{
+      alert('Olá — esta é a página de testes para Kubernetes!');
+    });
+
+    btnCopy.addEventListener('click', async ()=>{
+      const text = 'Esta é minha página de testes para Kubernetes.';
+      try{
+        await navigator.clipboard.writeText(text);
+        btnCopy.textContent = 'Copiado!';
+        setTimeout(()=> btnCopy.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><rect x="9" y="9" width="9" height="11" rx="2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Copiar texto para clipboard', 1400);
+      }catch(e){
+        alert('Não foi possível copiar (navegador não suportado).');
+      }
+    });
+
+    btnTheme.addEventListener('click', ()=>{
+      document.documentElement.style.setProperty('--bg1', getComputedStyle(document.documentElement).getPropertyValue('--bg1') === '#0f172a' ? '#071029' : '#0f172a');
+      document.documentElement.style.setProperty('--accent', getComputedStyle(document.documentElement).getPropertyValue('--accent') === '#7c3aed' ? '#10b981' : '#7c3aed');
+    });
+
+    // Tenta detectar ambiente Kubernetes (básico)
+    // Não faz chamadas externas — apenas checa variáveis que podem estar injetadas em alguns ambientes
+    window.addEventListener('load', ()=>{
+      const host = location.hostname;
+      if(host && (host.includes('svc') || host.includes('cluster') || host.match(/\d+\.\d+\.\d+\.\d+/))){
+        clusterLabel.textContent = host;
+      } else {
+        clusterLabel.textContent = 'ambiente local';
+      }
+    });
+  </script>
+</body>
+</html>
