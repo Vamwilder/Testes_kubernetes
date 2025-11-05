@@ -28,7 +28,6 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/meu-site:latest
 
     - name: ☸️ Deploy no Kubernetes
-      if: secrets.KUBECONFIG != ''
       env:
         KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
       run: |
